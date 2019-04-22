@@ -55,10 +55,13 @@ export default {
     let title = getSearchString('title')
     let jiashu_code = getSearchString('jiashu_code')
     setCookie("jiashu_code",jiashu_code)
-    console.log(decodeURIComponent(getCookie('jiashu_code')))
-    if(title && articleType && jiashu_code){
+    if(title){
       this.title = title
+    }
+    if(articleType){
       this.articleType = articleType
+    }
+    if(jiashu_code){
       this.jiashu_code = jiashu_code
     }
   },
@@ -91,6 +94,14 @@ export default {
         },1000)
         return
       }
+      if(this.title == ''){
+        this.alertShow = true
+        this.message = '请填写文章标题'
+        setTimeout(()=>{
+          this.alertShow = false
+        },1000)
+        return
+      }
       let paramData = {
         articleType:this.articleType,
         detail:this.content,
@@ -105,6 +116,9 @@ export default {
             this.message = '文章发布成功'
 
             setTimeout(()=>{
+              this.alertShow = false
+              this.title = ''
+              this.content = ''
               wx.miniProgram.navigateBack({
                 delta: 1
               },1000)
