@@ -3,13 +3,15 @@ import Router from 'vue-router'
 import HelloWorld from '@/components/HelloWorld'
 
 Vue.use(Router)
-
-export default new Router({
-  routes: [
-    {
-      path: '/',
+const routes = [
+  {
+    path: '/',
       name: 'HelloWorld',
       component: HelloWorld
-    }
-  ]
-})
+  },
+]
+const router = new Router({
+  mode: 'history',
+  routes
+});
+export default router

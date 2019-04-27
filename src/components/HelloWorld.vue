@@ -47,7 +47,8 @@ export default {
       articleType:null,
       jiashu_code:null,
       message:'文章发布成功',
-      alertShow:false
+      alertShow:false,
+      img:''
     }
   },
   mounted(){
@@ -78,7 +79,11 @@ export default {
             // $vm.$img2Url 详情见本页末尾
             console.log(res)
             let url = "https://pic.fangkuaikj.com/"+res.data
+            if(this.img == ''){
+              this.img = url
+            }
             this.$refs.md.$img2Url(pos, url);
+            console.log(this.img_file)
           })
         
     },
@@ -105,7 +110,8 @@ export default {
       let paramData = {
         articleType:this.articleType,
         detail:this.content,
-        title:this.title
+        title:this.title,
+        img:this.img
       }
       var qs = require('qs');
       articleSend(qs.stringify(paramData))
@@ -119,10 +125,15 @@ export default {
               this.alertShow = false
               this.title = ''
               this.content = ''
-              wx.miniProgram.navigateBack({
-                delta: 1
-              },1000)
-            })
+              wx.miniProgram.getEnv(function (res) {
+                console.log(res.miniprogram) // true
+                if(res.miniprogram){
+                  wx.miniProgram.switchTab({
+                    url:'/pages/index/index'
+                  })
+                }
+              }) 
+            },1500)
           }
           
         })
