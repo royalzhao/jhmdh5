@@ -117,10 +117,11 @@ export default {
       articleSend(qs.stringify(paramData))
         .then(res => {
           console.log(res)
-          if(res.data == 1){
+          if(res.code == 200){
             this.alertShow = true
             this.message = '文章发布成功'
-
+            var id = res.data
+            var articleType = this.articleType
             setTimeout(()=>{
               this.alertShow = false
               this.title = ''
@@ -128,8 +129,8 @@ export default {
               wx.miniProgram.getEnv(function (res) {
                 console.log(res.miniprogram) // true
                 if(res.miniprogram){
-                  wx.miniProgram.switchTab({
-                    url:'/pages/index/index'
+                  wx.miniProgram.redirectTo({
+                    url: '/pages/article/article?articleId='+id+'&askType='+articleType
                   })
                 }
               }) 
